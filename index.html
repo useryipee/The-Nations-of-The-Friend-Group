@@ -133,10 +133,10 @@
   <div class="masthead">
     <h1 style="font-size:38px;line-height:1.1;">THE NATIONS OF THE FRIEND GROUP</h1>
     <div class="rule"></div>
-    <p>SIX NATIONS · ONE WORLD · CHOOSE YOUR SIDE</p>
+    <p>SEVEN NATIONS · ONE WORLD · CHOOSE YOUR SIDE</p>
   </div>
   <div class="nation-grid" id="nationGrid"></div>
-  <div class="footnote">Runs entirely in your browser — no accounts, no server, no internet connection needed once loaded. Pick a nation to lead; the other five are run by the computer.</div>
+  <div class="footnote">Runs entirely in your browser — no accounts, no server, no internet connection needed once loaded. Pick a nation to lead; the rest are run by the computer.</div>
 </div>
 
 <!-- ============ GAME ============ -->
@@ -248,18 +248,20 @@ const NATIONS = {
   keiran: {name:"N-K", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
     home:["eaus","nzl"],
     blurb:"N-K: a close-knit island alliance guarding the far southern seas."},
+  tuioj: {name:"T-U-I-O-J", color:"#6b8fb0", region:"Europe",
+    home:["ice","bri","sca","weu","seu","eeu"],
+    blurb:"T-U-I-O-J: a dense patchwork of old states, wealthy but easy to invade from several directions at once."},
 };
 const NEUTRAL_EUROPE = ["ice","bri","sca","weu","seu","eeu"];
 const NATION_IDS = Object.keys(NATIONS);
 
 const HOME_BONUS = {};
 NATION_IDS.forEach(id=> HOME_BONUS[id] = NATIONS[id].home.length );
-HOME_BONUS.europe = NEUTRAL_EUROPE.length;
 
 const BLOBS = [
   {label:"S-M", ids:NATIONS.magnus.home, color:NATIONS.magnus.color},
   {label:"D-U-K", ids:NATIONS.duk.home, color:NATIONS.duk.color},
-  {label:"NEUTRAL", ids:NEUTRAL_EUROPE, color:"#777"},
+  {label:"T-U-I-O-J", ids:NEUTRAL_EUROPE, color:NATIONS.tuioj.color},
   {label:"C-L-A-L-I", ids:["naf","egy","con","eaf","saf"], color:NATIONS.liam.color},
   {label:"T-D-O-L", ids:NATIONS.lachlan.home, color:NATIONS.lachlan.color},
   {label:"C-L-A-L-I", ids:["ino","png"], color:NATIONS.liam.color},
@@ -345,7 +347,7 @@ function beginTurn(s){
   const nation = s.nations.find(n=>n.id===nid);
   const owned = ownedIds(s, nid);
   let bonus = 0;
-  const clusters = Object.assign({}, ...NATION_IDS.map(id=>({[id]:NATIONS[id].home})), {europe:NEUTRAL_EUROPE});
+  const clusters = Object.assign({}, ...NATION_IDS.map(id=>({[id]:NATIONS[id].home})));
   Object.keys(clusters).forEach(key=>{
     const ids = clusters[key];
     if(ids.length && ids.every(t=>s.territories[t].owner===nid)) bonus += HOME_BONUS[key];
