@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DOMINION — Territory War Room</title>
+<title>The Nations of The Friend Group</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
     --muted:#8f947f;
     --war:#b0402a;
     --peace:#5a8f5a;
-    --alliance:#3f7fae;
     --sea:#3d6b8a;
+    --neutral:#5a5f4e;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--paper);font-family:'IBM Plex Sans',sans-serif;overflow:hidden;}
@@ -40,45 +40,32 @@
   button.danger:hover:not(:disabled){background:#3a1c14;}
   button.good{border-color:var(--peace);color:#cfe8cf;}
   button.small{padding:4px 9px;font-size:11px;}
-  input[type=text]{
-    background:#0e100b;border:1px solid var(--line);color:var(--paper);
-    padding:9px 10px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:14px;
-  }
   ::-webkit-scrollbar{width:8px;}
   ::-webkit-scrollbar-thumb{background:#3a3f30;border-radius:4px;}
 
-  /* ---------- LANDING / LOBBY ---------- */
-  #landing{
-    height:100%;display:flex;align-items:center;justify-content:center;
-    background:radial-gradient(ellipse at 50% 20%, #1c2116 0%, #12140f 70%);
+  /* ---------- NATION SELECT ---------- */
+  #select{
+    height:100%;overflow-y:auto;
+    background:radial-gradient(ellipse at 50% 10%, #1c2116 0%, #12140f 70%);
+    padding:30px 20px 50px;
   }
-  .masthead{text-align:center;margin-bottom:8px;}
-  .masthead h1{font-size:58px;color:var(--paper);}
-  .masthead .rule{width:120px;height:3px;background:var(--brass);margin:10px auto 6px;}
+  .masthead{text-align:center;margin-bottom:26px;}
+  .masthead h1{font-size:52px;color:var(--paper);}
+  .masthead .rule{width:120px;height:3px;background:var(--brass);margin:10px auto 8px;}
   .masthead p{color:var(--muted);font-size:13px;letter-spacing:.08em;}
-  .card{
-    background:var(--panel);border:1px solid var(--line);border-radius:4px;
-    padding:28px 32px;width:380px;
+  .nation-grid{
+    display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:16px;max-width:1000px;margin:0 auto;
   }
-  .tabs{display:flex;gap:0;margin-bottom:18px;border-bottom:1px solid var(--line);}
-  .tab{flex:1;text-align:center;padding:10px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13px;border-bottom:2px solid transparent;}
-  .tab.active{color:var(--brass);border-bottom-color:var(--brass);}
-  .field{margin-bottom:14px;}
-  .field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;letter-spacing:.04em;}
-  .field input{width:100%;}
-  .full{width:100%;}
-  .error-msg{color:#e0917a;font-size:12px;margin-top:8px;min-height:16px;}
-
-  /* ---------- LOBBY WAITING ROOM ---------- */
-  #waiting .code-display{
-    text-align:center;background:#0e100b;border:1px dashed var(--brass-dim);
-    padding:16px;border-radius:4px;margin-bottom:18px;
+  .ncard{
+    background:var(--panel);border:1px solid var(--line);border-radius:5px;
+    padding:18px;display:flex;flex-direction:column;gap:8px;
   }
-  #waiting .code-display .code{font-family:'IBM Plex Mono';font-size:32px;letter-spacing:0.12em;color:var(--brass);}
-  #waiting .code-display .lbl{font-size:11px;color:var(--muted);letter-spacing:.08em;}
-  .plist{list-style:none;margin:0 0 18px 0;padding:0;}
-  .plist li{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #262b1e;font-size:14px;}
-  .swatch{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .ncard .flag{width:34px;height:22px;border-radius:2px;margin-bottom:4px;}
+  .ncard h3{font-size:19px;}
+  .ncard .region{font-family:'IBM Plex Mono';font-size:11px;color:var(--brass);}
+  .ncard p{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0;flex:1;}
+  .ncard .stat{font-family:'IBM Plex Mono';font-size:11px;color:var(--paper);}
 
   /* ---------- GAME LAYOUT ---------- */
   #game{display:none;height:100%;flex-direction:column;}
@@ -89,11 +76,8 @@
   #topbar h1{font-size:22px;color:var(--brass);}
   #turnInfo{font-family:'IBM Plex Mono';font-size:13px;color:var(--paper);text-align:center;}
   #turnInfo .you{color:var(--brass);font-weight:600;}
-  #codeChip{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);border:1px solid var(--line);padding:5px 10px;border-radius:3px;}
   #main{flex:1;display:flex;min-height:0;}
-  #mapWrap{flex:1;position:relative;background:
-      radial-gradient(ellipse at 30% 20%, #182015 0%, #10120c 60%);
-    overflow:hidden;}
+  #mapWrap{flex:1;position:relative;background:radial-gradient(ellipse at 30% 20%, #182015 0%, #10120c 60%);overflow:hidden;}
   #mapWrap svg{width:100%;height:100%;display:block;}
   .terr-circle{cursor:pointer;stroke:#0c0e08;stroke-width:2;transition:r .15s;}
   .terr-circle:hover{stroke:var(--brass);stroke-width:3;}
@@ -103,20 +87,17 @@
   .terr-badge{font-family:'IBM Plex Mono';font-size:8px;fill:var(--paper);text-anchor:middle;pointer-events:none;}
   .edge-land{stroke:#4a4f3a;stroke-width:1.4;}
   .edge-sea{stroke:var(--sea);stroke-width:1.4;stroke-dasharray:3,3;}
-  .cont-blob{opacity:0.10;}
-  .cont-tag{font-family:'Big Shoulders Display';font-weight:700;font-size:15px;fill:var(--muted);opacity:0.5;letter-spacing:.05em;}
+  .cont-blob{opacity:0.12;}
+  .cont-tag{font-family:'Big Shoulders Display';font-weight:700;font-size:13px;fill:var(--muted);opacity:0.55;letter-spacing:.04em;}
 
-  #sidebar{
-    width:340px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--line);
-    display:flex;flex-direction:column;overflow-y:auto;
-  }
+  #sidebar{width:350px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;}
   .panel{border-bottom:1px solid var(--line);padding:14px 16px;}
   .panel h3{font-size:14px;color:var(--brass);letter-spacing:.03em;margin-bottom:10px;}
-  .roster-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;}
-  .roster-row .name{flex:1;}
-  .roster-row .stats{color:var(--muted);font-family:'IBM Plex Mono';font-size:11px;}
+  .roster-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12.5px;flex-wrap:wrap;}
+  .roster-row .name{flex:1;min-width:120px;}
+  .roster-row .stats{color:var(--muted);font-family:'IBM Plex Mono';font-size:10.5px;}
   .roster-row.dead{opacity:0.35;text-decoration:line-through;}
-  .roster-row.turn{background:#26301c;margin:0 -8px;padding:5px 8px;border-radius:3px;}
+  .roster-row.turn{background:#26301c;margin:0 -8px;padding:6px 8px;border-radius:3px;}
 
   .mode-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
   .mode-row button.active{background:var(--brass);color:#1a1a10;border-color:var(--brass);}
@@ -135,83 +116,35 @@
   .offer-row{background:#26301c;border-radius:3px;padding:8px;margin-bottom:6px;font-size:12px;}
 
   #logPanel{flex:1;min-height:120px;}
-  #logList{list-style:none;margin:0;padding:0;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted);line-height:1.6;max-height:220px;overflow-y:auto;}
+  #logList{list-style:none;margin:0;padding:0;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted);line-height:1.6;max-height:240px;overflow-y:auto;}
   #logList li{padding:2px 0;border-bottom:1px dotted #262b1e;}
-  #logList li.you-log{color:var(--paper);}
 
-  #winScreen{
-    position:fixed;inset:0;background:rgba(10,12,8,0.92);display:none;
-    align-items:center;justify-content:center;flex-direction:column;z-index:50;
-  }
-  #winScreen h1{font-size:64px;color:var(--brass);margin-bottom:8px;}
+  #winScreen{position:fixed;inset:0;background:rgba(10,12,8,0.92);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:50;}
+  #winScreen h1{font-size:56px;color:var(--brass);margin-bottom:8px;text-align:center;}
   #winScreen p{color:var(--muted);margin-bottom:24px;}
 
-  .footnote{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5;}
+  .footnote{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;}
 </style>
 </head>
 <body>
 
-<!-- ============ LANDING ============ -->
-<div id="landing">
-  <div>
-    <div class="masthead">
-      <h1>DOMINION</h1>
-      <div class="rule"></div>
-      <p>ARMIES · NAVIES · AIR FORCES · CONQUEST</p>
-    </div>
-    <div class="card">
-      <div class="tabs">
-        <div class="tab active" data-tab="create" onclick="switchTab('create')">Create Lobby</div>
-        <div class="tab" data-tab="join" onclick="switchTab('join')">Join Lobby</div>
-      </div>
-
-      <div id="tab-create">
-        <div class="field">
-          <label>YOUR NAME</label>
-          <input type="text" id="createName" maxlength="16" placeholder="Commander name">
-        </div>
-        <button class="primary full" onclick="createLobby()">Create Game</button>
-      </div>
-
-      <div id="tab-join" style="display:none;">
-        <div class="field">
-          <label>YOUR NAME</label>
-          <input type="text" id="joinName" maxlength="16" placeholder="Commander name">
-        </div>
-        <div class="field">
-          <label>LOBBY CODE</label>
-          <input type="text" id="joinCode" maxlength="5" placeholder="e.g. K7QXR" style="text-transform:uppercase;">
-        </div>
-        <button class="primary full" onclick="joinLobby()">Join Game</button>
-      </div>
-      <div class="error-msg" id="landingError"></div>
-      <div class="footnote">Playable in one browser tab per commander — open separate tabs/devices for each friend. Don't refresh mid-game; your seat lives only in this tab's memory.</div>
-    </div>
+<!-- ============ NATION SELECT ============ -->
+<div id="select">
+  <div class="masthead">
+    <h1 style="font-size:38px;line-height:1.1;">THE NATIONS OF THE FRIEND GROUP</h1>
+    <div class="rule"></div>
+    <p>SIX NATIONS · ONE WORLD · CHOOSE YOUR SIDE</p>
   </div>
-</div>
-
-<!-- ============ WAITING ROOM ============ -->
-<div id="waiting" style="display:none;" class="landing-like">
-  <div id="landing2" style="height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 20%, #1c2116 0%, #12140f 70%);">
-    <div class="card" style="width:420px;">
-      <h2 style="text-align:center;margin-bottom:16px;color:var(--brass);font-size:28px;">WAR ROOM</h2>
-      <div class="code-display">
-        <div class="lbl">LOBBY CODE — SHARE WITH YOUR FRIENDS</div>
-        <div class="code" id="wCode">-----</div>
-      </div>
-      <ul class="plist" id="wPlayers"></ul>
-      <button class="primary full" id="wStartBtn" onclick="startGame()" disabled>Start Game (need 2+ commanders)</button>
-      <div class="footnote" id="wHint">Waiting for the host to start the war...</div>
-    </div>
-  </div>
+  <div class="nation-grid" id="nationGrid"></div>
+  <div class="footnote">Runs entirely in your browser — no accounts, no server, no internet connection needed once loaded. Pick a nation to lead; the other five are run by the computer.</div>
 </div>
 
 <!-- ============ GAME ============ -->
 <div id="game">
   <div id="topbar">
-    <h1>DOMINION</h1>
+    <h1 style="font-size:16px;white-space:nowrap;">THE FRIEND GROUP</h1>
     <div id="turnInfo">—</div>
-    <div id="codeChip">CODE: ----</div>
+    <button class="small" onclick="location.reload()">Restart</button>
   </div>
   <div id="main">
     <div id="mapWrap"></div>
@@ -222,49 +155,53 @@
 <div id="winScreen">
   <h1 id="winTitle">VICTORY</h1>
   <p id="winSub"></p>
-  <button class="primary" onclick="location.reload()">Return to Landing</button>
+  <button class="primary" onclick="location.reload()">Play Again</button>
 </div>
 
 <script>
 /* ============================================================
-   WORLD DATA
+   WORLD DATA — territories carry an approximate population
+   (millions) used to scale starting military size and
+   reinforcement income as territory changes hands.
    ============================================================ */
 const TERR = {
-  ala:{name:"Alaska", cont:"NA", x:70, y:100},
-  can:{name:"Canada", cont:"NA", x:170, y:95},
-  wus:{name:"Western US", cont:"NA", x:140, y:190},
-  eus:{name:"Eastern US", cont:"NA", x:235, y:185},
-  cam:{name:"Central America", cont:"NA", x:175, y:265},
+  ala:{name:"Alaska", x:70, y:100, pop:1},
+  can:{name:"Canada", x:170, y:95, pop:38},
+  wus:{name:"Western US", x:140, y:190, pop:130},
+  eus:{name:"Eastern US", x:235, y:185, pop:205},
+  cam:{name:"Central America", x:175, y:265, pop:50},
 
-  ven:{name:"Venezuela", cont:"SA", x:235, y:320},
-  bra:{name:"Brazil", cont:"SA", x:300, y:390},
-  per:{name:"Peru", cont:"SA", x:220, y:400},
-  arg:{name:"Argentina", cont:"SA", x:250, y:475},
+  ven:{name:"Venezuela", x:235, y:320, pop:28},
+  bra:{name:"Brazil", x:300, y:390, pop:215},
+  per:{name:"Peru", x:220, y:400, pop:33},
+  arg:{name:"Argentina", x:250, y:475, pop:46},
 
-  ice:{name:"Iceland", cont:"EU", x:420, y:85},
-  bri:{name:"Britain", cont:"EU", x:445, y:140},
-  sca:{name:"Scandinavia", cont:"EU", x:515, y:75},
-  weu:{name:"Western Europe", cont:"EU", x:460, y:195},
-  seu:{name:"Southern Europe", cont:"EU", x:505, y:240},
-  eeu:{name:"Eastern Europe", cont:"EU", x:570, y:150},
+  ice:{name:"Iceland", x:420, y:85, pop:1},
+  bri:{name:"Britain", x:445, y:140, pop:67},
+  sca:{name:"Scandinavia", x:515, y:75, pop:27},
+  weu:{name:"Western Europe", x:460, y:195, pop:200},
+  seu:{name:"Southern Europe", x:505, y:240, pop:120},
+  eeu:{name:"Eastern Europe", x:570, y:150, pop:100},
 
-  naf:{name:"North Africa", cont:"AF", x:460, y:290},
-  egy:{name:"Egypt", cont:"AF", x:535, y:295},
-  con:{name:"Congo", cont:"AF", x:495, y:365},
-  eaf:{name:"East Africa", cont:"AF", x:565, y:355},
-  saf:{name:"South Africa", cont:"AF", x:525, y:440},
+  naf:{name:"North Africa", x:460, y:290, pop:100},
+  egy:{name:"Egypt", x:535, y:295, pop:105},
+  con:{name:"Congo", x:495, y:365, pop:100},
+  eaf:{name:"East Africa", x:565, y:355, pop:250},
+  saf:{name:"South Africa", x:525, y:440, pop:60},
 
-  mideast:{name:"Middle East", cont:"AS", x:600, y:250},
-  ind:{name:"India", cont:"AS", x:675, y:300},
-  chn:{name:"China", cont:"AS", x:735, y:225},
-  sib:{name:"Siberia", cont:"AS", x:715, y:120},
-  mon:{name:"Mongolia", cont:"AS", x:760, y:155},
-  jap:{name:"Japan", cont:"AS", x:830, y:175},
-  sia:{name:"Siam", cont:"AS", x:735, y:325},
+  mideast:{name:"Middle East", x:600, y:250, pop:250},
+  ind:{name:"India", x:675, y:300, pop:1400},
+  chn:{name:"China", x:735, y:225, pop:1400},
+  sib:{name:"Siberia", x:715, y:120, pop:15},
+  mon:{name:"Mongolia", x:760, y:155, pop:3},
+  jap:{name:"Japan", x:830, y:175, pop:125},
+  sia:{name:"Siam", x:735, y:325, pop:200},
 
-  ino:{name:"Indonesia", cont:"OC", x:775, y:385},
-  aus:{name:"Australia", cont:"OC", x:825, y:465},
-  png:{name:"New Guinea", cont:"OC", x:860, y:385},
+  ino:{name:"Indonesia", x:775, y:385, pop:275},
+  png:{name:"New Guinea", x:860, y:385, pop:11},
+  disas:{name:"West Disas", x:790, y:460, pop:5},
+  eaus:{name:"Eastern Australia", x:850, y:465, pop:21},
+  nzl:{name:"New Zealand", x:905, y:500, pop:5},
 };
 
 const EDGES = [
@@ -273,20 +210,11 @@ const EDGES = [
   ["sca","eeu",0],["weu","seu",0],["seu","eeu",0],["eeu","mideast",0],
   ["naf","egy",0],["naf","con",0],["egy","mideast",0],["egy","eaf",0],["con","eaf",0],["con","saf",0],["eaf","saf",0],
   ["mideast","ind",0],["ind","chn",0],["ind","sia",0],["chn","mon",0],["chn","sia",0],["chn","sib",0],["sib","mon",0],
+  ["disas","eaus",0],
   ["ala","sib",1],["bra","naf",1],["ice","bri",1],["ice","sca",1],["bri","weu",1],["bri","sca",1],["weu","naf",1],
-  ["seu","egy",1],["seu","mideast",1],["eaf","mideast",1],["mon","jap",1],["sia","ino",1],["ino","aus",1],["ino","png",1],["png","aus",1],
+  ["seu","egy",1],["seu","mideast",1],["eaf","mideast",1],["mon","jap",1],["sia","ino",1],
+  ["ino","png",1],["ino","disas",1],["png","eaus",1],["eaus","nzl",1],
 ];
-
-const CONTINENTS = {
-  NA:{name:"North America", bonus:5, color:"#3a4a6e"},
-  SA:{name:"South America", bonus:3, color:"#5a4a2e"},
-  EU:{name:"Europe", bonus:5, color:"#4a5a3a"},
-  AF:{name:"Africa", bonus:3, color:"#6e4a2a"},
-  AS:{name:"Asia", bonus:7, color:"#5a3a5a"},
-  OC:{name:"Oceania", bonus:2, color:"#2a5a5a"},
-};
-
-const PLAYER_COLORS = ["#c0392b","#2980b9","#27ae60","#8e44ad","#e67e22","#16a085","#d4ac0d"];
 
 const ADJ = {};
 Object.keys(TERR).forEach(id=>ADJ[id]=[]);
@@ -299,263 +227,186 @@ function isSeaEdge(a,b){ return SEA_EDGE.has(a+"|"+b); }
 function isCoastal(id){ return ADJ[id].some(n=>isSeaEdge(id,n)); }
 
 /* ============================================================
-   LOCAL SESSION STATE
+   NATIONS
    ============================================================ */
-let myId = (crypto.randomUUID ? crypto.randomUUID() : "p"+Math.random().toString(36).slice(2));
-let myName = "";
-let currentCode = null;
-let localState = null;
-let pollTimer = null;
-let uiMode = "none";       // none | reinforce | attack | fortify | recruit-army | recruit-navy | recruit-air
-let uiSelected = null;     // selected territory id for two-step actions
+const NATIONS = {
+  magnus: {name:"South Magnus", color:"#2980b9", region:"North America",
+    home:["ala","can","wus","eus","cam"],
+    blurb:"A continental federation stretching from the Arctic to the tropics."},
+  duk: {name:"DUK — Dustin United Kingdom", color:"#c0392b", region:"South America",
+    home:["ven","bra","per","arg"],
+    blurb:"A young federation spanning the Amazon basin and the Andes."},
+  lachlan: {name:"The Dictatorship of Lachlan", color:"#8e44ad", region:"Asia",
+    home:["mideast","ind","chn","sib","mon","jap","sia"],
+    blurb:"An authoritarian superpower ruling the most populous landmass on Earth. Enormous manpower, slow to mobilize."},
+  liam: {name:"Central Liam and Liam Isles", color:"#e67e22", region:"Africa & the isles beyond Australia",
+    home:["naf","egy","con","eaf","saf","ino","png"],
+    blurb:"A sprawling, non-contiguous realm linking the African continent to distant island holdings."},
+  disas: {name:"West Disas", color:"#16a085", region:"Western/Northern/South Australia",
+    home:["disas"],
+    blurb:"A vast, sparsely populated frontier state. Small in number, but hard to starve out."},
+  keiran: {name:"New Keiran", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
+    home:["eaus","nzl"],
+    blurb:"A close-knit island alliance guarding the far southern seas."},
+};
+const NEUTRAL_EUROPE = ["ice","bri","sca","weu","seu","eeu"];
+const NATION_IDS = Object.keys(NATIONS);
+
+const HOME_BONUS = {};
+NATION_IDS.forEach(id=> HOME_BONUS[id] = NATIONS[id].home.length );
+HOME_BONUS.europe = NEUTRAL_EUROPE.length;
+
+const BLOBS = [
+  {label:"SOUTH MAGNUS", ids:NATIONS.magnus.home, color:NATIONS.magnus.color},
+  {label:"DUK", ids:NATIONS.duk.home, color:NATIONS.duk.color},
+  {label:"NEUTRAL EUROPE", ids:NEUTRAL_EUROPE, color:"#777"},
+  {label:"CENTRAL LIAM", ids:["naf","egy","con","eaf","saf"], color:NATIONS.liam.color},
+  {label:"THE DICTATORSHIP OF LACHLAN", ids:NATIONS.lachlan.home, color:NATIONS.lachlan.color},
+  {label:"LIAM ISLES", ids:["ino","png"], color:NATIONS.liam.color},
+  {label:"WEST DISAS", ids:NATIONS.disas.home, color:NATIONS.disas.color},
+  {label:"NEW KEIRAN", ids:NATIONS.keiran.home, color:NATIONS.keiran.color},
+];
+
+function startArmy(pop){ return Math.max(2, Math.round(pop/40)); }
 
 /* ============================================================
-   STORAGE HELPERS
+   GAME STATE
    ============================================================ */
-async function loadState(code){
-  try{
-    const r = await window.storage.get('lobby_'+code, true);
-    return r ? JSON.parse(r.value) : null;
-  }catch(e){ return null; }
-}
-async function saveState(code, state){
-  state.updatedAt = Date.now();
-  try{
-    await window.storage.set('lobby_'+code, JSON.stringify(state), true);
-  }catch(e){ console.error("save failed", e); }
-  return state;
-}
-async function mutate(fn){
-  let s = await loadState(currentCode);
-  if(!s) return;
-  fn(s);
-  await saveState(currentCode, s);
-  localState = s;
-  render();
-}
-
-/* ============================================================
-   LANDING / TABS
-   ============================================================ */
-function switchTab(t){
-  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active', el.dataset.tab===t));
-  document.getElementById('tab-create').style.display = t==='create' ? 'block':'none';
-  document.getElementById('tab-join').style.display = t==='join' ? 'block':'none';
-  document.getElementById('landingError').textContent = '';
-}
-
-function randomCode(){
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let c = "";
-  for(let i=0;i<5;i++) c += chars[Math.floor(Math.random()*chars.length)];
-  return c;
-}
-
-async function createLobby(){
-  const name = document.getElementById('createName').value.trim() || "Commander";
-  myName = name;
-  const code = randomCode();
-  const state = {
-    code, hostId: myId, phase: 'lobby',
-    players: [{id:myId, name, color:PLAYER_COLORS[0], gold:0, techAttack:0, techDefense:0, alive:true}],
-    territories: {}, relations: {}, offers: [],
-    turnOrder: [], currentTurnIndex: 0, turnPhase: null, reinforceRemaining: 0,
-    turnNumber: 0,
-    log: [`${name} opened the war room.`],
-    winnerId: null,
-  };
-  currentCode = code;
-  await saveState(code, state);
-  localState = state;
-  startPolling();
-  showWaiting();
-}
-
-async function joinLobby(){
-  const name = document.getElementById('joinName').value.trim() || "Commander";
-  const code = document.getElementById('joinCode').value.trim().toUpperCase();
-  const err = document.getElementById('landingError');
-  if(!code){ err.textContent = "Enter a lobby code."; return; }
-  const s = await loadState(code);
-  if(!s){ err.textContent = "No lobby found with that code."; return; }
-  if(s.phase !== 'lobby'){ err.textContent = "That war has already begun."; return; }
-  if(s.players.length >= PLAYER_COLORS.length){ err.textContent = "Lobby is full."; return; }
-  myName = name;
-  currentCode = code;
-  s.players.push({id:myId, name, color:PLAYER_COLORS[s.players.length], gold:0, techAttack:0, techDefense:0, alive:true});
-  s.log.push(`${name} joined the war room.`);
-  await saveState(code, s);
-  localState = s;
-  startPolling();
-  showWaiting();
-}
-
-function showWaiting(){
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('waiting').style.display = 'block';
-  renderWaiting();
-}
-
-function renderWaiting(){
-  if(!localState) return;
-  document.getElementById('wCode').textContent = currentCode;
-  const list = document.getElementById('wPlayers');
-  list.innerHTML = localState.players.map(p=>`
-    <li><span class="swatch" style="background:${p.color}"></span>
-    <span>${escapeHtml(p.name)}${p.id===localState.hostId?' <span class="mono" style="color:var(--muted);font-size:11px;">(host)</span>':''}${p.id===myId?' <span class="mono" style="color:var(--brass);font-size:11px;">— you</span>':''}</span></li>
-  `).join('');
-  const isHost = myId === localState.hostId;
-  const startBtn = document.getElementById('wStartBtn');
-  if(isHost){
-    startBtn.style.display = 'block';
-    startBtn.disabled = localState.players.length < 2;
-    startBtn.textContent = localState.players.length < 2 ? "Start Game (need 2+ commanders)" : "Start Game";
-    document.getElementById('wHint').textContent = "You're hosting. Start once everyone has joined.";
-  } else {
-    startBtn.style.display = 'none';
-    document.getElementById('wHint').textContent = "Waiting for the host to start the war...";
-  }
-  if(localState.phase === 'playing'){
-    enterGame();
-  }
-}
-
-/* ============================================================
-   START GAME
-   ============================================================ */
-async function startGame(){
-  await mutate(s=>{
-    if(s.players.length < 2) return;
-    const ids = Object.keys(TERR);
-    shuffle(ids);
-    const players = s.players;
-    ids.forEach((tid,i)=>{
-      const owner = players[i % players.length].id;
-      s.territories[tid] = {owner, army:3, navy:0, air:0};
-    });
-    players.forEach(p=>{ p.gold = 40; p.techAttack=0; p.techDefense=0; p.alive=true; });
-    for(let i=0;i<players.length;i++){
-      for(let j=i+1;j<players.length;j++){
-        s.relations[relKey(players[i].id, players[j].id)] = 'peace';
-      }
-    }
-    const order = players.map(p=>p.id);
-    shuffle(order);
-    s.turnOrder = order;
-    s.currentTurnIndex = 0;
-    s.turnNumber = 1;
-    s.phase = 'playing';
-    beginTurn(s);
-    s.log.push(`— The war begins! ${TERR ? Object.keys(TERR).length : 0} territories divided among ${players.length} commanders. —`);
-  });
-  enterGame();
-}
+let playerNation = null;
+let state = null;
+let uiMode = "none";
+let uiSelected = null;
+let cpuRunning = false;
 
 function relKey(a,b){ return [a,b].sort().join('|'); }
 function getRel(s,a,b){ if(a===b) return 'self'; return s.relations[relKey(a,b)] || 'peace'; }
+function nameOf(s,nid){ if(!nid) return "Unclaimed Land"; const n = s.nations.find(x=>x.id===nid); return n?n.name:'?'; }
+function ownedIds(s,nid){ return Object.keys(s.territories).filter(t=>s.territories[t].owner===nid); }
+function totalPop(s,nid){ return ownedIds(s,nid).reduce((sum,t)=>sum+TERR[t].pop,0); }
+function totalMil(s,nid){ return ownedIds(s,nid).reduce((sum,t)=>{const g=s.territories[t];return sum+g.army+g.navy+g.air;},0); }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]] = [arr[j],arr[i]];
-  }
+/* ============================================================
+   NATION SELECT SCREEN
+   ============================================================ */
+function renderNationGrid(){
+  const grid = document.getElementById('nationGrid');
+  grid.innerHTML = NATION_IDS.map(id=>{
+    const n = NATIONS[id];
+    const pop = n.home.reduce((s,t)=>s+TERR[t].pop,0);
+    return `<div class="ncard">
+      <div class="flag" style="background:${n.color}"></div>
+      <h3>${n.name}</h3>
+      <div class="region">${n.region}</div>
+      <p>${n.blurb}</p>
+      <div class="stat">Home population: ~${pop.toLocaleString()}m</div>
+      <button class="primary full" onclick="startGame('${id}')">Play as ${n.name.split(' — ')[0].split(' (')[0]}</button>
+    </div>`;
+  }).join('');
+}
+renderNationGrid();
+
+/* ============================================================
+   GAME SETUP
+   ============================================================ */
+function startGame(chosenId){
+  playerNation = chosenId;
+  const territories = {};
+  Object.keys(TERR).forEach(tid=>{
+    const owner = NATION_IDS.find(nid => NATIONS[nid].home.includes(tid)) || null;
+    territories[tid] = {owner, army: startArmy(TERR[tid].pop), navy:0, air:0};
+  });
+  const nations = NATION_IDS.map(id=>({
+    id, name:NATIONS[id].name, color:NATIONS[id].color,
+    gold: 30, techAttack:0, techDefense:0, alive:true, isCPU: id!==chosenId,
+  }));
+  const relations = {};
+  for(let i=0;i<nations.length;i++) for(let j=i+1;j<nations.length;j++) relations[relKey(nations[i].id,nations[j].id)]='peace';
+
+  const order = nations.map(n=>n.id);
+  shuffle(order);
+
+  state = {
+    phase:'playing',
+    territories, nations, relations, offers:[],
+    turnOrder: order, currentTurnIndex: 0, turnPhase:null, reinforceRemaining:0,
+    turnNumber: 1,
+    log: [`— The world holds its breath. ${nations.length} nations, one continent-spanning game of conquest. —`],
+    winnerId: null,
+  };
+  beginTurn(state);
+  enterGame();
+  advanceIfCpu();
 }
 
 function beginTurn(s){
-  const pid = s.turnOrder[s.currentTurnIndex];
-  const player = s.players.find(p=>p.id===pid);
-  const owned = Object.keys(s.territories).filter(t=>s.territories[t].owner===pid);
+  const nid = s.turnOrder[s.currentTurnIndex];
+  const nation = s.nations.find(n=>n.id===nid);
+  const owned = ownedIds(s, nid);
   let bonus = 0;
-  Object.keys(CONTINENTS).forEach(c=>{
-    const all = Object.keys(TERR).filter(t=>TERR[t].cont===c);
-    if(all.length && all.every(t=>s.territories[t].owner===pid)) bonus += CONTINENTS[c].bonus;
+  const clusters = Object.assign({}, ...NATION_IDS.map(id=>({[id]:NATIONS[id].home})), {europe:NEUTRAL_EUROPE});
+  Object.keys(clusters).forEach(key=>{
+    const ids = clusters[key];
+    if(ids.length && ids.every(t=>s.territories[t].owner===nid)) bonus += HOME_BONUS[key];
   });
-  const reinforcements = Math.max(3, Math.floor(owned.length/3)) + bonus;
-  const income = owned.length*2 + bonus*2;
-  player.gold += income;
+  const pop = totalPop(s, nid);
+  const reinforcements = Math.max(2, Math.round(pop/120)) + bonus;
+  const income = Math.floor(pop/15) + owned.length;
+  nation.gold += income;
   s.reinforceRemaining = reinforcements;
   s.turnPhase = 'reinforce';
-  s.log.push(`— Turn ${s.turnNumber}: ${player.name}'s move. +${reinforcements} reinforcements, +${income} gold. —`);
+  s.log.push(`— Turn ${s.turnNumber}: ${nation.name}'s move. +${reinforcements} reinforcements, +${income}g. —`);
 }
 
 /* ============================================================
-   GAME ENTRY / POLLING
+   ENTER GAME / RENDER DISPATCH
    ============================================================ */
-function startPolling(){
-  if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(async ()=>{
-    if(!currentCode) return;
-    const s = await loadState(currentCode);
-    if(s && (!localState || s.updatedAt !== localState.updatedAt)){
-      const wasLobby = localState && localState.phase === 'lobby';
-      localState = s;
-      if(document.getElementById('game').style.display === 'flex'){
-        render();
-      } else if(document.getElementById('waiting').style.display === 'block'){
-        renderWaiting();
-      }
-    }
-  }, 2200);
-}
-
 function enterGame(){
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('waiting').style.display = 'none';
+  document.getElementById('select').style.display = 'none';
   document.getElementById('game').style.display = 'flex';
-  document.getElementById('codeChip').textContent = 'CODE: ' + currentCode;
   render();
 }
 
-/* ============================================================
-   RENDER — MAIN DISPATCH
-   ============================================================ */
 function render(){
-  if(!localState) return;
-  if(localState.phase === 'ended'){
-    showWinScreen();
-  }
+  if(!state) return;
+  if(state.phase === 'ended'){ showWinScreen(); }
   renderMap();
   renderSidebar();
   renderTurnInfo();
 }
 
 function renderTurnInfo(){
-  const s = localState;
+  const s = state;
   const el = document.getElementById('turnInfo');
   if(s.phase !== 'playing'){ el.textContent = '—'; return; }
-  const pid = s.turnOrder[s.currentTurnIndex];
-  const p = s.players.find(x=>x.id===pid);
-  const mine = pid === myId;
-  el.innerHTML = `Turn ${s.turnNumber} &nbsp;·&nbsp; <span style="color:${p.color}">${escapeHtml(p.name)}</span>'s ${s.turnPhase === 'reinforce' ? 'reinforcement' : 'action'} phase ${mine ? '<span class="you">(YOUR TURN)</span>' : ''}`;
+  const nid = s.turnOrder[s.currentTurnIndex];
+  const n = s.nations.find(x=>x.id===nid);
+  const mine = nid === playerNation;
+  el.innerHTML = `Turn ${s.turnNumber} &nbsp;·&nbsp; <span style="color:${n.color}">${escapeHtml(n.name)}</span>'s ${s.turnPhase==='reinforce'?'reinforcement':'action'} phase ${mine?'<span class="you">(YOUR TURN)</span>':'<span class="mono" style="color:var(--muted)">(CPU)</span>'}`;
 }
 
-function isMyTurn(){
-  if(!localState || localState.phase!=='playing') return false;
-  return localState.turnOrder[localState.currentTurnIndex] === myId;
-}
+function isMyTurn(){ return state && state.phase==='playing' && state.turnOrder[state.currentTurnIndex]===playerNation; }
 
 /* ============================================================
-   RENDER — MAP
+   MAP RENDER
    ============================================================ */
 function renderMap(){
-  const s = localState;
+  const s = state;
   const wrap = document.getElementById('mapWrap');
 
   let blobs = '';
-  Object.keys(CONTINENTS).forEach(c=>{
-    const ids = Object.keys(TERR).filter(t=>TERR[t].cont===c);
-    const xs = ids.map(id=>TERR[id].x), ys = ids.map(id=>TERR[id].y);
-    const cx = (Math.min(...xs)+Math.max(...xs))/2;
-    const cy = (Math.min(...ys)+Math.max(...ys))/2;
-    const rx = (Math.max(...xs)-Math.min(...xs))/2 + 55;
-    const ry = (Math.max(...ys)-Math.min(...ys))/2 + 45;
-    blobs += `<ellipse class="cont-blob" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${CONTINENTS[c].color}"></ellipse>`;
-    blobs += `<text class="cont-tag" x="${cx}" y="${Math.min(...ys)-32}">${CONTINENTS[c].name.toUpperCase()}</text>`;
+  BLOBS.forEach(b=>{
+    const xs = b.ids.map(id=>TERR[id].x), ys = b.ids.map(id=>TERR[id].y);
+    const cx=(Math.min(...xs)+Math.max(...xs))/2, cy=(Math.min(...ys)+Math.max(...ys))/2;
+    const rx=(Math.max(...xs)-Math.min(...xs))/2+45, ry=(Math.max(...ys)-Math.min(...ys))/2+38;
+    blobs += `<ellipse class="cont-blob" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${b.color}"></ellipse>`;
+    blobs += `<text class="cont-tag" x="${cx}" y="${Math.min(...ys)-26}">${b.label}</text>`;
   });
 
   let edgeSvg = '';
   EDGES.forEach(([a,b,sea])=>{
-    const A = TERR[a], B = TERR[b];
+    const A=TERR[a], B=TERR[b];
     edgeSvg += `<line class="${sea?'edge-sea':'edge-land'}" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"></line>`;
   });
 
@@ -563,320 +414,434 @@ function renderMap(){
   Object.keys(TERR).forEach(id=>{
     const t = TERR[id];
     const gs = s.territories[id];
-    const owner = gs ? s.players.find(p=>p.id===gs.owner) : null;
-    const color = owner ? owner.color : '#3a3f30';
-    const total = gs ? gs.army+gs.navy+gs.air : 0;
-    const r = gs ? Math.min(26, 13 + Math.sqrt(total)*2) : 14;
+    const owner = gs.owner ? s.nations.find(n=>n.id===gs.owner) : null;
+    const color = owner ? owner.color : '#4a4f3a';
+    const total = gs.army+gs.navy+gs.air;
+    const r = Math.min(27, 12 + Math.sqrt(total)*2.2);
     const selected = uiSelected === id;
     nodeSvg += `<g>
       <circle class="terr-circle ${selected?'selected':''}" cx="${t.x}" cy="${t.y}" r="${r}" fill="${color}" onclick="handleTerritoryClick('${id}')"></circle>
-      ${gs ? `<text class="terr-count" x="${t.x}" y="${t.y+1}">${gs.army}</text>` : ''}
-      ${gs && gs.navy>0 ? `<text class="terr-badge" x="${t.x-r-4}" y="${t.y+3}" fill="${var_sea()}">N${gs.navy}</text>` : ''}
-      ${gs && gs.air>0 ? `<text class="terr-badge" x="${t.x+r+4}" y="${t.y+3}" fill="${var_brass()}">F${gs.air}</text>` : ''}
+      <text class="terr-count" x="${t.x}" y="${t.y+1}">${gs.army}</text>
+      ${gs.navy>0?`<text class="terr-badge" x="${t.x-r-4}" y="${t.y+3}" fill="#7fb8d8">N${gs.navy}</text>`:''}
+      ${gs.air>0?`<text class="terr-badge" x="${t.x+r+4}" y="${t.y+3}" fill="#c9962c">F${gs.air}</text>`:''}
       <text class="terr-label" x="${t.x}" y="${t.y+r+11}">${t.name}</text>
     </g>`;
   });
 
-  wrap.innerHTML = `<svg viewBox="0 0 940 520" preserveAspectRatio="xMidYMid meet">
-    ${blobs}
-    ${edgeSvg}
-    ${nodeSvg}
-  </svg>`;
+  wrap.innerHTML = `<svg viewBox="0 0 940 540" preserveAspectRatio="xMidYMid meet">${blobs}${edgeSvg}${nodeSvg}</svg>`;
 }
-function var_sea(){ return "#7fb8d8"; }
-function var_brass(){ return "#c9962c"; }
 
 /* ============================================================
-   TERRITORY CLICK HANDLER
+   TERRITORY CLICK (human player only)
    ============================================================ */
-async function handleTerritoryClick(id){
-  const s = localState;
-  if(s.phase !== 'playing') return;
+function handleTerritoryClick(id){
+  const s = state;
+  if(!s || s.phase!=='playing' || !isMyTurn()) return;
   const gs = s.territories[id];
-  const myTurn = isMyTurn();
 
   if(uiMode === 'reinforce'){
-    if(!myTurn || s.turnPhase!=='reinforce') return;
-    if(gs.owner !== myId){ flash("You can only reinforce your own territories."); return; }
-    if(s.reinforceRemaining <= 0) return;
-    await mutate(st=>{
-      st.territories[id].army += 1;
-      st.reinforceRemaining -= 1;
-      if(st.reinforceRemaining <= 0){
-        st.turnPhase = 'action';
-        st.log.push(`${nameOf(st,myId)} finished reinforcing.`);
-      }
-    });
+    if(s.turnPhase!=='reinforce') return;
+    if(gs.owner !== playerNation){ flash("You can only reinforce your own territory."); return; }
+    if(s.reinforceRemaining<=0) return;
+    gs.army += 1;
+    s.reinforceRemaining -= 1;
+    if(s.reinforceRemaining<=0){
+      s.turnPhase='action';
+      s.log.push(`${nameOf(s,playerNation)} finished reinforcing.`);
+    }
+    render();
     return;
   }
 
   if(uiMode.startsWith('recruit-')){
-    if(!myTurn || s.turnPhase!=='action') return;
-    if(gs.owner !== myId){ flash("Recruit only on your own territories."); return; }
+    if(s.turnPhase!=='action') return;
+    if(gs.owner !== playerNation){ flash("Recruit only on your own territory."); return; }
     const kind = uiMode.split('-')[1];
     const cost = kind==='army'?3:kind==='navy'?6:8;
-    const player = s.players.find(p=>p.id===myId);
-    if(kind==='navy' && !isCoastal(id)){ flash(`${TERR[id].name} isn't coastal — navies need coastal territory.`); return; }
-    if(player.gold < cost){ flash("Not enough gold."); return; }
-    await mutate(st=>{
-      const p = st.players.find(pp=>pp.id===myId);
-      p.gold -= cost;
-      st.territories[id][kind] += 1;
-      st.log.push(`${p.name} raised ${kind==='army'?'an army unit':kind==='navy'?'a navy unit':'an air unit'} in ${TERR[id].name}. (-${cost}g)`);
-    });
+    const nation = s.nations.find(n=>n.id===playerNation);
+    if(kind==='navy' && !isCoastal(id)){ flash(`${TERR[id].name} isn't coastal.`); return; }
+    if(nation.gold<cost){ flash("Not enough gold."); return; }
+    nation.gold -= cost;
+    gs[kind] += 1;
+    s.log.push(`${nation.name} raised ${kind==='army'?'an army unit':kind==='navy'?'a navy unit':'an air unit'} in ${TERR[id].name}. (-${cost}g)`);
+    render();
     return;
   }
 
   if(uiMode === 'attack'){
-    if(!myTurn || s.turnPhase!=='action') return;
+    if(s.turnPhase!=='action') return;
     if(!uiSelected){
-      if(gs.owner !== myId){ flash("Select one of your own territories first."); return; }
-      if(gs.army <= 1){ flash("Need more than 1 army there to attack from."); return; }
-      uiSelected = id; render(); return;
+      if(gs.owner!==playerNation){ flash("Select your own territory first."); return; }
+      if(gs.army<=1){ flash("Need more than 1 army there."); return; }
+      uiSelected=id; render(); return;
     } else {
-      if(id === uiSelected){ uiSelected=null; render(); return; }
-      if(!ADJ[uiSelected].includes(id)){ flash("Not adjacent to your selected territory."); uiSelected=null; render(); return; }
-      if(gs.owner === myId){ flash("That's already yours."); return; }
-      await doAttack(uiSelected, id);
-      uiSelected = null;
+      if(id===uiSelected){ uiSelected=null; render(); return; }
+      if(!ADJ[uiSelected].includes(id)){ flash("Not adjacent."); uiSelected=null; render(); return; }
+      if(gs.owner===playerNation){ flash("That's already yours."); return; }
+      resolveAttack(s, uiSelected, id);
+      uiSelected=null; render();
       return;
     }
   }
 
   if(uiMode === 'fortify'){
-    if(!myTurn || s.turnPhase!=='action') return;
+    if(s.turnPhase!=='action') return;
     if(!uiSelected){
-      if(gs.owner !== myId){ flash("Select one of your own territories first."); return; }
-      if(gs.army <= 1){ flash("Nothing spare to move from there."); return; }
-      uiSelected = id; render(); return;
+      if(gs.owner!==playerNation){ flash("Select your own territory first."); return; }
+      if(gs.army<=1){ flash("Nothing spare to move."); return; }
+      uiSelected=id; render(); return;
     } else {
-      if(id === uiSelected){ uiSelected=null; render(); return; }
+      if(id===uiSelected){ uiSelected=null; render(); return; }
       if(!ADJ[uiSelected].includes(id)){ flash("Not adjacent."); uiSelected=null; render(); return; }
-      if(gs.owner !== myId){ flash("Can only fortify into your own territory."); return; }
-      const src = uiSelected;
-      await mutate(st=>{
-        if(st.territories[src].army > 1){
-          st.territories[src].army -= 1;
-          st.territories[id].army += 1;
-          st.log.push(`${nameOf(st,myId)} moved a unit from ${TERR[src].name} to ${TERR[id].name}.`);
-        }
-      });
+      if(gs.owner!==playerNation){ flash("Can only fortify into your own territory."); return; }
+      const src = s.territories[uiSelected];
+      if(src.army>1){
+        src.army-=1; gs.army+=1;
+        s.log.push(`${nameOf(s,playerNation)} moved a unit from ${TERR[uiSelected].name} to ${TERR[id].name}.`);
+      }
+      uiSelected=null; render();
       return;
     }
   }
 }
 
-function nameOf(s, pid){ const p = s.players.find(x=>x.id===pid); return p?p.name:'?'; }
+/* ============================================================
+   COMBAT — multi-die Risk-style resolution
+   ============================================================ */
+function resolveAttack(s, srcId, destId){
+  const src=s.territories[srcId], dest=s.territories[destId];
+  const attacker = s.nations.find(n=>n.id===src.owner);
+  const defender = dest.owner ? s.nations.find(n=>n.id===dest.owner) : {id:null,name:"Unclaimed Land",techDefense:0};
+  if(!attacker || src.owner===dest.owner) return;
+  if(!ADJ[srcId].includes(destId)) return;
+  if(src.army<=1) return;
 
-async function doAttack(srcId, destId){
-  await mutate(s=>{
-    const src = s.territories[srcId], dest = s.territories[destId];
-    const attacker = s.players.find(p=>p.id===src.owner);
-    const defender = s.players.find(p=>p.id===dest.owner);
-    if(!attacker || !defender || src.owner===dest.owner) return;
-
-    const rel = getRel(s, attacker.id, defender.id);
-    if(rel === 'alliance'){
-      s.log.push(`${attacker.name} cannot strike ${defender.name} — break the alliance first.`);
-      return;
-    }
-    if(rel === 'peace'){
-      s.relations[relKey(attacker.id, defender.id)] = 'war';
+  if(dest.owner){
+    const rel = getRel(s, attacker.id, dest.owner);
+    if(rel==='alliance'){ s.log.push(`${attacker.name} cannot strike ${defender.name} — break the alliance first.`); return; }
+    if(rel==='peace'){
+      s.relations[relKey(attacker.id, dest.owner)]='war';
       s.log.push(`⚔ ${attacker.name} declares WAR on ${defender.name}!`);
     }
-    const seaCross = isSeaEdge(srcId, destId);
-    if(seaCross && src.navy < 1){
-      s.log.push(`${attacker.name}'s assault on ${TERR[destId].name} fails — no navy stationed in ${TERR[srcId].name} to cross the water.`);
-      return;
-    }
+  }
+  const seaCross = isSeaEdge(srcId,destId);
+  if(seaCross && src.navy<1){
+    s.log.push(`${attacker.name}'s assault on ${TERR[destId].name} fails — no navy stationed in ${TERR[srcId].name}.`);
+    return;
+  }
 
-    const atkRoll = 1 + Math.floor(Math.random()*6) + attacker.techAttack + (src.air>0?1:0);
-    const defRoll = 1 + Math.floor(Math.random()*6) + defender.techDefense + (seaCross && dest.navy>0 ? 1:0);
+  const atkDiceCount = Math.max(1, Math.min(3, src.army-1));
+  const defUnits = dest.army+dest.navy+dest.air;
+  const defDiceCount = Math.max(1, Math.min(2, defUnits));
+  const atkBonus = attacker.techAttack + (src.air>0?1:0);
+  const defBonus = (defender.techDefense||0) + (seaCross && dest.navy>0 ? 1:0);
+  const atkDice = Array.from({length:atkDiceCount}, ()=>1+Math.floor(Math.random()*6)+atkBonus).sort((a,b)=>b-a);
+  const defDice = Array.from({length:defDiceCount}, ()=>1+Math.floor(Math.random()*6)+defBonus).sort((a,b)=>b-a);
+  const rounds = Math.min(atkDice.length, defDice.length);
+  let atkLosses=0, defLosses=0;
+  for(let i=0;i<rounds;i++){ if(atkDice[i] > defDice[i]) defLosses++; else atkLosses++; }
+  for(let i=0;i<atkLosses;i++){ if(src.army>1) src.army--; }
+  for(let i=0;i<defLosses;i++){ if(dest.army>0) dest.army--; else if(dest.navy>0) dest.navy--; else if(dest.air>0) dest.air--; }
 
-    if(atkRoll > defRoll){
-      if(dest.army>0) dest.army--; else if(dest.navy>0) dest.navy--; else if(dest.air>0) dest.air--;
-      const remaining = dest.army+dest.navy+dest.air;
-      s.log.push(`${attacker.name} (${atkRoll}) beats ${defender.name} (${defRoll}) at ${TERR[destId].name}.`);
-      if(remaining <= 0){
-        const moveArmy = Math.max(1, Math.min(Math.floor(src.army/2), src.army-1));
-        dest.owner = attacker.id;
-        dest.army = moveArmy;
-        dest.navy = 0; dest.air = 0;
-        src.army -= moveArmy;
-        s.log.push(`🚩 ${attacker.name} CAPTURES ${TERR[destId].name} from ${defender.name}!`);
-        const stillOwns = Object.values(s.territories).some(t=>t.owner===defender.id);
-        if(!stillOwns){
-          defender.alive = false;
-          s.log.push(`☠ ${defender.name} has been eliminated from the war!`);
-        }
-        const aliveOwners = new Set(Object.values(s.territories).map(t=>t.owner));
-        if(aliveOwners.size === 1){
-          const winnerId = [...aliveOwners][0];
-          s.phase = 'ended';
-          s.winnerId = winnerId;
-          s.log.push(`👑 ${nameOf(s,winnerId)} has conquered the world!`);
-        }
+  s.log.push(`${attacker.name} [${atkDice.join(',')}] vs ${defender.name} [${defDice.join(',')}] at ${TERR[destId].name} — attacker lost ${atkLosses}, defender lost ${defLosses}.`);
+
+  const remaining = dest.army+dest.navy+dest.air;
+  if(remaining<=0){
+    const moveArmy = Math.max(1, Math.min(Math.floor(src.army/2), src.army-1));
+    dest.owner = attacker.id; dest.army = moveArmy; dest.navy=0; dest.air=0;
+    src.army -= moveArmy;
+    s.log.push(`🚩 ${attacker.name} CAPTURES ${TERR[destId].name}${defender.id?` from ${defender.name}`:''}!`);
+    if(defender.id){
+      const stillOwns = Object.values(s.territories).some(t=>t.owner===defender.id);
+      if(!stillOwns){
+        defender.alive=false;
+        s.log.push(`☠ ${defender.name} has been eliminated from the war!`);
       }
-    } else {
-      if(src.army>1) src.army--; else if(src.navy>0) src.navy--; else if(src.air>0) src.air--;
-      s.log.push(`${defender.name} (${defRoll}) repels ${attacker.name} (${atkRoll}) at ${TERR[destId].name}.`);
     }
-  });
+    const aliveOwnersWithLand = new Set(Object.values(s.territories).filter(t=>t.owner).map(t=>t.owner));
+    const aliveNations = s.nations.filter(n=>n.alive);
+    if(aliveOwnersWithLand.size===1 && aliveNations.length===1){
+      s.phase='ended'; s.winnerId=[...aliveOwnersWithLand][0];
+      s.log.push(`👑 ${nameOf(s,s.winnerId)} has conquered the world!`);
+    }
+  }
 }
 
 /* ============================================================
-   ACTIONS: mode switching, upgrades, diplomacy, turn control
+   TURN CONTROLS (human)
    ============================================================ */
-function setMode(m){
-  uiMode = (uiMode === m) ? 'none' : m;
-  uiSelected = null;
+function setMode(m){ uiMode = uiMode===m?'none':m; uiSelected=null; render(); }
+function finishReinforcing(){
+  const s=state;
+  if(s.turnPhase==='reinforce'){
+    s.turnPhase='action'; s.reinforceRemaining=0;
+    s.log.push(`${nameOf(s,playerNation)} finished reinforcing early.`);
+    render();
+  }
+}
+function buyTech(kind){
+  const s=state; const p=s.nations.find(n=>n.id===playerNation);
+  const level = kind==='attack'?p.techAttack:p.techDefense;
+  if(level>=3) return;
+  const cost=(level+1)*15;
+  if(p.gold<cost) return;
+  p.gold-=cost;
+  if(kind==='attack') p.techAttack++; else p.techDefense++;
+  s.log.push(`${p.name} upgraded ${kind} doctrine to level ${level+1}. (-${cost}g)`);
+  render();
+}
+function endTurn(){
+  advanceTurn(state);
+  uiMode='none'; uiSelected=null;
+  render();
+  advanceIfCpu();
+}
+function advanceTurn(s){
+  let attempts=0;
+  do{
+    s.currentTurnIndex = (s.currentTurnIndex+1) % s.turnOrder.length;
+    attempts++;
+  } while(!s.nations.find(n=>n.id===s.turnOrder[s.currentTurnIndex]).alive && attempts<=s.turnOrder.length);
+  s.turnNumber++;
+  beginTurn(s);
+}
+
+function proposeOffer(toId, type){
+  const s=state;
+  const exists = s.offers.find(o=>o.from===playerNation && o.to===toId && o.type===type);
+  if(exists) return;
+  const offer = {id:'o'+Math.random().toString(36).slice(2), from:playerNation, to:toId, type};
+  s.offers.push(offer);
+  s.log.push(`${nameOf(s,playerNation)} proposes ${type} to ${nameOf(s,toId)}.`);
+  render();
+  const targetNation = s.nations.find(n=>n.id===toId);
+  if(targetNation && targetNation.isCPU){
+    setTimeout(()=>cpuRespondToOffer(offer.id), 500);
+  }
+}
+function cancelOffer(offerId){
+  state.offers = state.offers.filter(o=>!(o.id===offerId && o.from===playerNation));
+  render();
+}
+function respondOffer(offerId, accept){
+  const s=state;
+  const o = s.offers.find(x=>x.id===offerId && x.to===playerNation);
+  if(!o) return;
+  s.offers = s.offers.filter(x=>x.id!==offerId);
+  if(accept){
+    s.relations[relKey(o.from,o.to)]=o.type;
+    s.log.push(`${nameOf(s,o.to)} accepts ${o.type} with ${nameOf(s,o.from)}.`);
+  } else {
+    s.log.push(`${nameOf(s,o.to)} declines ${o.type} with ${nameOf(s,o.from)}.`);
+  }
+  render();
+}
+function declareWar(targetId){
+  const s=state;
+  s.relations[relKey(playerNation,targetId)]='war';
+  s.offers = s.offers.filter(o=>!((o.from===playerNation&&o.to===targetId)||(o.from===targetId&&o.to===playerNation)));
+  s.log.push(`⚔ ${nameOf(s,playerNation)} declares WAR on ${nameOf(s,targetId)}!`);
+  render();
+}
+function breakAlliance(targetId){
+  const s=state;
+  s.relations[relKey(playerNation,targetId)]='peace';
+  s.log.push(`${nameOf(s,playerNation)} breaks the alliance with ${nameOf(s,targetId)}.`);
+  render();
+}
+function flash(msg){
+  const el = document.getElementById('flashMsg');
+  if(el){ el.textContent=msg; el.style.opacity='1'; setTimeout(()=>{el.style.opacity='0';},2200); }
+}
+
+/* ============================================================
+   CPU AI
+   ============================================================ */
+function cpuRespondToOffer(offerId){
+  const s = state;
+  const o = s.offers.find(x=>x.id===offerId);
+  if(!o) return;
+  const cpu = s.nations.find(n=>n.id===o.to);
+  if(!cpu || !cpu.isCPU) return;
+  const myTerr = ownedIds(s,o.to).length, theirTerr = ownedIds(s,o.from).length;
+  let accept;
+  if(o.type==='alliance') accept = true;
+  else accept = myTerr <= theirTerr*1.3;
+  s.offers = s.offers.filter(x=>x.id!==offerId);
+  if(accept){
+    s.relations[relKey(o.from,o.to)]=o.type;
+    s.log.push(`${nameOf(s,o.to)} accepts ${o.type} with ${nameOf(s,o.from)}.`);
+  } else {
+    s.log.push(`${nameOf(s,o.to)} declines ${o.type} with ${nameOf(s,o.from)}.`);
+  }
   render();
 }
 
-async function finishReinforcing(){
-  await mutate(s=>{
-    if(s.turnPhase==='reinforce'){
-      s.turnPhase='action';
-      s.reinforceRemaining = 0;
-      s.log.push(`${nameOf(s,myId)} finished reinforcing early.`);
+function runCpuTurn(nid){
+  const s = state;
+  const nation = s.nations.find(n=>n.id===nid);
+
+  // reinforce: favor border territories (adjacent to non-owned land)
+  let guard = 0;
+  while(s.reinforceRemaining>0 && guard<500){
+    guard++;
+    const mine = ownedIds(s,nid);
+    if(!mine.length) break;
+    const borders = mine.filter(t=>ADJ[t].some(n=>s.territories[n].owner!==nid));
+    const pool = borders.length ? borders : mine;
+    const pick = pool[Math.floor(Math.random()*pool.length)];
+    s.territories[pick].army += 1;
+    s.reinforceRemaining -= 1;
+  }
+  s.turnPhase = 'action';
+
+  // recruiting: spend a chunk of gold on army, occasionally tech
+  let spendGuard=0;
+  while(nation.gold>=3 && Math.random()<0.7 && spendGuard<8){
+    spendGuard++;
+    const mine = ownedIds(s,nid);
+    if(!mine.length) break;
+    if(nation.gold>=15 && Math.random()<0.25 && nation.techAttack<3){
+      const cost=(nation.techAttack+1)*15;
+      if(nation.gold>=cost){ nation.gold-=cost; nation.techAttack++; s.log.push(`${nation.name} upgraded attack doctrine to level ${nation.techAttack}.`); continue; }
     }
-  });
-}
+    const borders = mine.filter(t=>ADJ[t].some(n=>s.territories[n].owner!==nid));
+    const pool = borders.length?borders:mine;
+    const pick = pool[Math.floor(Math.random()*pool.length)];
+    nation.gold -= 3;
+    s.territories[pick].army += 1;
+  }
 
-async function buyTech(kind){
-  await mutate(s=>{
-    const p = s.players.find(pp=>pp.id===myId);
-    const level = kind==='attack' ? p.techAttack : p.techDefense;
-    if(level >= 3) return;
-    const cost = (level+1)*15;
-    if(p.gold < cost) return;
-    p.gold -= cost;
-    if(kind==='attack') p.techAttack++; else p.techDefense++;
-    s.log.push(`${p.name} upgraded ${kind} doctrine to level ${level+1}. (-${cost}g)`);
-  });
-}
+  // attack: pick best-odds adjacent target, repeat a few times
+  let attacks=0;
+  while(attacks<5){
+    const mine = ownedIds(s,nid);
+    let best=null, bestScore=0;
+    mine.forEach(srcId=>{
+      const src = s.territories[srcId];
+      if(src.army<=1) return;
+      ADJ[srcId].forEach(destId=>{
+        const dest = s.territories[destId];
+        if(dest.owner===nid) return;
+        if(isSeaEdge(srcId,destId) && src.navy<1) return;
+        if(dest.owner){
+          const rel = getRel(s, nid, dest.owner);
+          if(rel==='alliance') return;
+          const ratio = (src.army-1) / Math.max(1, dest.army);
+          if(rel==='peace' && ratio < 2.5) return; // only start wars with big advantage
+          const score = ratio;
+          if(score>bestScore){ bestScore=score; best={srcId,destId}; }
+        } else {
+          const ratio = (src.army-1) / Math.max(1, dest.army);
+          const score = ratio + 0.5; // prefer easy neutral land grabs
+          if(score>bestScore){ bestScore=score; best={srcId,destId}; }
+        }
+      });
+    });
+    if(!best || bestScore<1.1) break;
+    resolveAttack(s, best.srcId, best.destId);
+    attacks++;
+    if(s.phase!=='playing') return;
+    if(!nation.alive) return;
+  }
 
-async function endTurn(){
-  await mutate(s=>{
-    if(s.turnOrder[s.currentTurnIndex] !== myId) return;
-    let attempts = 0;
-    do{
-      s.currentTurnIndex = (s.currentTurnIndex+1) % s.turnOrder.length;
-      attempts++;
-    } while(!s.players.find(p=>p.id===s.turnOrder[s.currentTurnIndex]).alive && attempts <= s.turnOrder.length);
-    s.turnNumber++;
-    beginTurn(s);
-  });
-  uiMode='none'; uiSelected=null;
-}
-
-async function proposeOffer(toId, type){
-  await mutate(s=>{
-    const exists = s.offers.find(o=>o.from===myId && o.to===toId && o.type===type);
-    if(exists) return;
-    s.offers.push({id:crypto.randomUUID?crypto.randomUUID():(''+Math.random()), from:myId, to:toId, type});
-    s.log.push(`${nameOf(s,myId)} proposes ${type} to ${nameOf(s,toId)}.`);
-  });
-}
-async function cancelOffer(offerId){
-  await mutate(s=>{ s.offers = s.offers.filter(o=>o.id!==offerId); });
-}
-async function respondOffer(offerId, accept){
-  await mutate(s=>{
-    const o = s.offers.find(x=>x.id===offerId);
-    if(!o) return;
-    s.offers = s.offers.filter(x=>x.id!==offerId);
-    if(accept){
-      s.relations[relKey(o.from,o.to)] = o.type;
-      s.log.push(`${nameOf(s,o.to)} accepts ${o.type} with ${nameOf(s,o.from)}.`);
-    } else {
-      s.log.push(`${nameOf(s,o.to)} declines ${o.type} with ${nameOf(s,o.from)}.`);
+  // fortify: move one unit from a safe interior territory to a border one
+  const mine = ownedIds(s,nid);
+  const interior = mine.filter(t=>ADJ[t].every(n=>s.territories[n].owner===nid) && s.territories[t].army>1);
+  const borders = mine.filter(t=>ADJ[t].some(n=>s.territories[n].owner!==nid));
+  if(interior.length && borders.length){
+    const fromId = interior[Math.floor(Math.random()*interior.length)];
+    const candidates = borders.filter(t=>ADJ[fromId].includes(t));
+    if(candidates.length){
+      const toId = candidates[Math.floor(Math.random()*candidates.length)];
+      s.territories[fromId].army -= 1;
+      s.territories[toId].army += 1;
     }
-  });
-}
-async function declareWar(targetId){
-  await mutate(s=>{
-    s.relations[relKey(myId,targetId)] = 'war';
-    s.offers = s.offers.filter(o=>!( (o.from===myId&&o.to===targetId) || (o.from===targetId&&o.to===myId) ));
-    s.log.push(`⚔ ${nameOf(s,myId)} declares WAR on ${nameOf(s,targetId)}!`);
-  });
-}
-async function breakAlliance(targetId){
-  await mutate(s=>{
-    s.relations[relKey(myId,targetId)] = 'peace';
-    s.log.push(`${nameOf(s,myId)} breaks the alliance with ${nameOf(s,targetId)}.`);
-  });
+  }
 }
 
-function flash(msg){
-  const el = document.getElementById('flashMsg');
-  if(el){ el.textContent = msg; el.style.opacity='1'; setTimeout(()=>{el.style.opacity='0';}, 2200); }
+async function advanceIfCpu(){
+  if(cpuRunning) return;
+  cpuRunning = true;
+  while(state.phase==='playing' && state.turnOrder[state.currentTurnIndex] !== playerNation){
+    const nid = state.turnOrder[state.currentTurnIndex];
+    const nation = state.nations.find(n=>n.id===nid);
+    if(!nation.alive){
+      advanceTurn(state);
+      continue;
+    }
+    render();
+    await new Promise(r=>setTimeout(r, 450));
+    runCpuTurn(nid);
+    if(state.phase!=='playing') break;
+    advanceTurn(state);
+    render();
+    await new Promise(r=>setTimeout(r, 250));
+  }
+  cpuRunning = false;
+  render();
 }
 
 /* ============================================================
-   RENDER — SIDEBAR
+   SIDEBAR
    ============================================================ */
 function renderSidebar(){
-  const s = localState;
+  const s = state;
   const sb = document.getElementById('sidebar');
   const myTurn = isMyTurn();
-  const me = s.players.find(p=>p.id===myId);
+  const me = s.nations.find(n=>n.id===playerNation);
 
   let html = '';
 
-  // Roster
-  html += `<div class="panel"><h3>COMMANDERS</h3>`;
-  s.turnOrder.length ? null : null;
-  s.players.forEach(p=>{
-    const owned = Object.values(s.territories).filter(t=>t.owner===p.id).length;
-    const isTurn = s.turnOrder[s.currentTurnIndex] === p.id;
-    html += `<div class="roster-row ${!p.alive?'dead':''} ${isTurn?'turn':''}">
-      <span class="swatch" style="background:${p.color}"></span>
-      <span class="name">${escapeHtml(p.name)}${p.id===myId?' (you)':''}</span>
-      <span class="stats">${owned}🗺 ${p.gold||0}g</span>
+  html += `<div class="panel"><h3>NATIONS</h3>`;
+  s.nations.forEach(n=>{
+    const owned = ownedIds(s,n.id).length;
+    const pop = totalPop(s,n.id);
+    const mil = totalMil(s,n.id);
+    const isTurn = s.turnOrder[s.currentTurnIndex]===n.id;
+    html += `<div class="roster-row ${!n.alive?'dead':''} ${isTurn?'turn':''}">
+      <span class="swatch" style="width:11px;height:11px;border-radius:50%;background:${n.color};flex-shrink:0;"></span>
+      <span class="name">${escapeHtml(n.name.split(' — ')[0])}${n.id===playerNation?' (you)':''}</span>
+      <span class="stats">${owned}🗺 · ${pop}m pop · ${mil} units · ${n.gold}g</span>
     </div>`;
   });
   html += `</div>`;
 
-  // Turn controls
-  html += `<div class="panel"><h3>${myTurn ? 'YOUR ORDERS' : 'STANDING BY'}</h3>`;
-  if(myTurn && s.turnPhase === 'reinforce'){
+  html += `<div class="panel"><h3>${myTurn?'YOUR ORDERS':'STANDING BY'}</h3>`;
+  if(!state) { html += '</div>'; sb.innerHTML=html; return; }
+  if(myTurn && s.turnPhase==='reinforce'){
     html += `<div class="hint">Place <b>${s.reinforceRemaining}</b> free army unit${s.reinforceRemaining===1?'':'s'}. Click your territories on the map.</div>`;
     html += `<button class="${uiMode==='reinforce'?'primary':''} full" onclick="setMode('reinforce')">${uiMode==='reinforce'?'Placing units — click map':'Start Placing'}</button>`;
     if(s.reinforceRemaining===0){
       html += `<div style="height:8px;"></div><button class="primary full" onclick="finishReinforcing()">Continue to Action Phase</button>`;
     }
-  } else if(myTurn && s.turnPhase === 'action'){
+  } else if(myTurn && s.turnPhase==='action'){
     html += `<div class="mode-row">
       <button class="${uiMode==='attack'?'active':''}" onclick="setMode('attack')">⚔ Attack</button>
       <button class="${uiMode==='fortify'?'active':''}" onclick="setMode('fortify')">➜ Fortify</button>
       <button class="${uiMode==='none'?'active':''}" onclick="setMode('none')">Select None</button>
     </div>`;
-    if(uiMode==='attack') html += `<div class="hint">Click one of your territories, then an adjacent enemy territory to strike. Sea routes (dashed lines) need a navy stationed in your territory.</div>`;
-    if(uiMode==='fortify') html += `<div class="hint">Click one of your territories, then an adjacent territory you also own, to move one army unit.</div>`;
+    if(uiMode==='attack') html += `<div class="hint">Click your territory, then an adjacent enemy/unclaimed territory to strike. Sea routes (dashed) need a navy in your territory.</div>`;
+    if(uiMode==='fortify') html += `<div class="hint">Click your territory, then an adjacent territory you also own, to move a unit.</div>`;
     if(uiSelected) html += `<div class="selbox">Selected: ${TERR[uiSelected].name}</div>`;
     html += `<div style="height:6px;"></div><button class="primary full" onclick="endTurn()">End Turn</button>`;
   } else {
-    html += `<div class="hint">It's ${nameOf(s, s.turnOrder[s.currentTurnIndex])}'s turn. You can still respond to diplomacy offers below.</div>`;
+    html += `<div class="hint">The ${nameOf(s, s.turnOrder[s.currentTurnIndex])} is taking its turn...</div>`;
   }
-  html += `<div class="mono" id="flashMsg" style="opacity:0;transition:opacity .3s;color:#e0917a;font-size:11.5px;margin-top:8px;"></div>`;
-  html += `</div>`;
+  html += `<div class="mono" id="flashMsg" style="opacity:0;transition:opacity .3s;color:#e0917a;font-size:11.5px;margin-top:8px;"></div></div>`;
 
-  // Recruitment / Upgrades
   if(myTurn && s.turnPhase==='action'){
     html += `<div class="panel"><h3>RECRUIT &amp; UPGRADE</h3>`;
     html += `<div class="shop-row"><span>Army unit — 3g</span><button class="small ${uiMode==='recruit-army'?'active':''}" onclick="setMode('recruit-army')">${uiMode==='recruit-army'?'Click territory...':'Recruit'}</button></div>`;
-    html += `<div class="shop-row"><span>Navy unit — 6g (coastal only)</span><button class="small ${uiMode==='recruit-navy'?'active':''}" onclick="setMode('recruit-navy')">${uiMode==='recruit-navy'?'Click territory...':'Build'}</button></div>`;
+    html += `<div class="shop-row"><span>Navy unit — 6g (coastal)</span><button class="small ${uiMode==='recruit-navy'?'active':''}" onclick="setMode('recruit-navy')">${uiMode==='recruit-navy'?'Click territory...':'Build'}</button></div>`;
     html += `<div class="shop-row"><span>Air unit — 8g</span><button class="small ${uiMode==='recruit-air'?'active':''}" onclick="setMode('recruit-air')">${uiMode==='recruit-air'?'Click territory...':'Build'}</button></div>`;
     html += `<div class="shop-row"><span>Attack doctrine (Lv${me.techAttack}/3) — ${(me.techAttack+1)*15}g</span><button class="small" ${me.techAttack>=3?'disabled':''} onclick="buyTech('attack')">Upgrade</button></div>`;
     html += `<div class="shop-row"><span>Defense doctrine (Lv${me.techDefense}/3) — ${(me.techDefense+1)*15}g</span><button class="small" ${me.techDefense>=3?'disabled':''} onclick="buyTech('defense')">Upgrade</button></div>`;
-    html += `<div class="footnote">Your gold: <b class="mono" style="color:var(--brass)">${me.gold}</b></div>`;
-    html += `</div>`;
+    html += `<div class="footnote" style="text-align:left;">Your gold: <b class="mono" style="color:var(--brass)">${me.gold}</b></div></div>`;
   }
 
-  // Diplomacy
   html += `<div class="panel"><h3>DIPLOMACY</h3>`;
-  const myOffers = s.offers.filter(o=>o.to===myId);
+  const myOffers = s.offers.filter(o=>o.to===playerNation);
   myOffers.forEach(o=>{
     html += `<div class="offer-row">${nameOf(s,o.from)} proposes <b>${o.type}</b>.
       <div style="margin-top:6px;display:flex;gap:6px;">
@@ -884,54 +849,45 @@ function renderSidebar(){
         <button class="small danger" onclick="respondOffer('${o.id}',false)">Decline</button>
       </div></div>`;
   });
-  const sentOffers = s.offers.filter(o=>o.from===myId);
-  s.players.filter(p=>p.id!==myId).forEach(p=>{
-    const rel = getRel(s, myId, p.id);
-    const pendingToThem = sentOffers.find(o=>o.to===p.id);
+  const sentOffers = s.offers.filter(o=>o.from===playerNation);
+  s.nations.filter(n=>n.id!==playerNation).forEach(n=>{
+    const rel = getRel(s, playerNation, n.id);
+    const pendingToThem = sentOffers.find(o=>o.to===n.id);
     html += `<div class="diplo-row">
-      <span class="swatch" style="background:${p.color}"></span>
-      <span style="flex:1;">${escapeHtml(p.name)}</span>
+      <span class="swatch" style="width:11px;height:11px;border-radius:50%;background:${n.color};flex-shrink:0;"></span>
+      <span style="flex:1;">${escapeHtml(n.name.split(' — ')[0])}</span>
       <span class="rel-badge rel-${rel}">${rel.toUpperCase()}</span>`;
     if(pendingToThem){
       html += `<button class="small" onclick="cancelOffer('${pendingToThem.id}')">Cancel Offer</button>`;
-    } else if(p.alive){
+    } else if(n.alive){
       if(rel==='peace'){
-        html += `<button class="small danger" onclick="declareWar('${p.id}')">Declare War</button>
-                  <button class="small good" onclick="proposeOffer('${p.id}','alliance')">Propose Alliance</button>`;
+        html += `<button class="small danger" onclick="declareWar('${n.id}')">Declare War</button>
+                  <button class="small good" onclick="proposeOffer('${n.id}','alliance')">Propose Alliance</button>`;
       } else if(rel==='war'){
-        html += `<button class="small good" onclick="proposeOffer('${p.id}','peace')">Propose Peace</button>`;
+        html += `<button class="small good" onclick="proposeOffer('${n.id}','peace')">Propose Peace</button>`;
       } else if(rel==='alliance'){
-        html += `<button class="small danger" onclick="breakAlliance('${p.id}')">Break Alliance</button>`;
+        html += `<button class="small danger" onclick="breakAlliance('${n.id}')">Break Alliance</button>`;
       }
     }
     html += `</div>`;
   });
   html += `</div>`;
 
-  // Log
   html += `<div class="panel" id="logPanel"><h3>DISPATCHES</h3><ul id="logList">`;
-  const recent = s.log.slice(-60).reverse();
-  recent.forEach(l=>{ html += `<li>${escapeHtml(l)}</li>`; });
+  s.log.slice(-70).reverse().forEach(l=>{ html += `<li>${escapeHtml(l)}</li>`; });
   html += `</ul></div>`;
 
   sb.innerHTML = html;
 }
 
 function showWinScreen(){
-  const s = localState;
-  document.getElementById('winScreen').style.display = 'flex';
-  const winner = s.players.find(p=>p.id===s.winnerId);
+  const s = state;
+  document.getElementById('winScreen').style.display='flex';
+  const winner = s.nations.find(n=>n.id===s.winnerId);
   document.getElementById('winTitle').textContent = winner ? `${winner.name.toUpperCase()} WINS` : 'WAR OVER';
   document.getElementById('winTitle').style.color = winner ? winner.color : 'var(--brass)';
-  document.getElementById('winSub').textContent = winner ? `${winner.name} has conquered the entire world.` : '';
+  document.getElementById('winSub').textContent = winner ? (winner.id===playerNation ? "You have conquered the entire world." : `${winner.name} has conquered the entire world.`) : '';
 }
-
-function escapeHtml(str){
-  return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-
-/* init */
-switchTab('create');
 </script>
 </body>
 </html>
