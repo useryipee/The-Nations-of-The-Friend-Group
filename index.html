@@ -230,24 +230,24 @@ function isCoastal(id){ return ADJ[id].some(n=>isSeaEdge(id,n)); }
    NATIONS
    ============================================================ */
 const NATIONS = {
-  magnus: {name:"South Magnus", color:"#2980b9", region:"North America",
+  magnus: {name:"S-M", fullName:"South Magnus", color:"#2980b9", region:"North America",
     home:["ala","can","wus","eus","cam"],
-    blurb:"A continental federation stretching from the Arctic to the tropics."},
-  duk: {name:"DUK — Dustin United Kingdom", color:"#c0392b", region:"South America",
+    blurb:"South Magnus: a continental federation stretching from the Arctic to the tropics."},
+  duk: {name:"D-U-K", fullName:"Dustin United Kingdom", color:"#c0392b", region:"South America",
     home:["ven","bra","per","arg"],
-    blurb:"A young federation spanning the Amazon basin and the Andes."},
-  lachlan: {name:"The Dictatorship of Lachlan", color:"#8e44ad", region:"Asia",
+    blurb:"The Dustin United Kingdom: a young federation spanning the Amazon basin and the Andes."},
+  lachlan: {name:"T-D-O-L", fullName:"The Dictatorship of Lachlan", color:"#8e44ad", region:"Asia",
     home:["mideast","ind","chn","sib","mon","jap","sia"],
-    blurb:"An authoritarian superpower ruling the most populous landmass on Earth. Enormous manpower, slow to mobilize."},
-  liam: {name:"Central Liam and Liam Isles", color:"#e67e22", region:"Africa & the isles beyond Australia",
+    blurb:"The Dictatorship of Lachlan: an authoritarian superpower ruling the most populous landmass on Earth. Enormous manpower, slow to mobilize."},
+  liam: {name:"C-L-A-L-I", fullName:"Central Liam and Liam Isles", color:"#e67e22", region:"Africa & the isles beyond Australia",
     home:["naf","egy","con","eaf","saf","ino","png"],
-    blurb:"A sprawling, non-contiguous realm linking the African continent to distant island holdings."},
-  disas: {name:"West Disas", color:"#16a085", region:"Western/Northern/South Australia",
+    blurb:"Central Liam and Liam Isles: a sprawling, non-contiguous realm linking the African continent to distant island holdings."},
+  disas: {name:"W-D", fullName:"West Disas", color:"#16a085", region:"Western/Northern/South Australia",
     home:["disas"],
-    blurb:"A vast, sparsely populated frontier state. Small in number, but hard to starve out."},
-  keiran: {name:"New Keiran", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
+    blurb:"West Disas: a vast, sparsely populated frontier state. Small in number, but hard to starve out."},
+  keiran: {name:"N-K", fullName:"New Keiran", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
     home:["eaus","nzl"],
-    blurb:"A close-knit island alliance guarding the far southern seas."},
+    blurb:"New Keiran: a close-knit island alliance guarding the far southern seas."},
 };
 const NEUTRAL_EUROPE = ["ice","bri","sca","weu","seu","eeu"];
 const NATION_IDS = Object.keys(NATIONS);
