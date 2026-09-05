@@ -199,7 +199,7 @@ const TERR = {
 
   ino:{name:"Indonesia", x:775, y:385, pop:275},
   png:{name:"New Guinea", x:860, y:385, pop:11},
-  disas:{name:"West Disas", x:790, y:460, pop:5},
+  disas:{name:"Western Interior", x:790, y:460, pop:5},
   eaus:{name:"Eastern Australia", x:850, y:465, pop:21},
   nzl:{name:"New Zealand", x:905, y:500, pop:5},
 };
@@ -230,24 +230,24 @@ function isCoastal(id){ return ADJ[id].some(n=>isSeaEdge(id,n)); }
    NATIONS
    ============================================================ */
 const NATIONS = {
-  magnus: {name:"S-M", fullName:"South Magnus", color:"#2980b9", region:"North America",
+  magnus: {name:"S-M", color:"#2980b9", region:"North America",
     home:["ala","can","wus","eus","cam"],
-    blurb:"South Magnus: a continental federation stretching from the Arctic to the tropics."},
-  duk: {name:"D-U-K", fullName:"Dustin United Kingdom", color:"#c0392b", region:"South America",
+    blurb:"S-M: a continental federation stretching from the Arctic to the tropics."},
+  duk: {name:"D-U-K", color:"#c0392b", region:"South America",
     home:["ven","bra","per","arg"],
-    blurb:"The Dustin United Kingdom: a young federation spanning the Amazon basin and the Andes."},
-  lachlan: {name:"T-D-O-L", fullName:"The Dictatorship of Lachlan", color:"#8e44ad", region:"Asia",
+    blurb:"D-U-K: a young federation spanning the Amazon basin and the Andes."},
+  lachlan: {name:"T-D-O-L", color:"#8e44ad", region:"Asia",
     home:["mideast","ind","chn","sib","mon","jap","sia"],
-    blurb:"The Dictatorship of Lachlan: an authoritarian superpower ruling the most populous landmass on Earth. Enormous manpower, slow to mobilize."},
-  liam: {name:"C-L-A-L-I", fullName:"Central Liam and Liam Isles", color:"#e67e22", region:"Africa & the isles beyond Australia",
+    blurb:"T-D-O-L: an authoritarian superpower ruling the most populous landmass on Earth. Enormous manpower, slow to mobilize."},
+  liam: {name:"C-L-A-L-I", color:"#e67e22", region:"Africa & the isles beyond Australia",
     home:["naf","egy","con","eaf","saf","ino","png"],
-    blurb:"Central Liam and Liam Isles: a sprawling, non-contiguous realm linking the African continent to distant island holdings."},
-  disas: {name:"W-D", fullName:"West Disas", color:"#16a085", region:"Western/Northern/South Australia",
+    blurb:"C-L-A-L-I: a sprawling, non-contiguous realm linking the African continent to distant island holdings."},
+  disas: {name:"W-D", color:"#16a085", region:"Western/Northern/South Australia",
     home:["disas"],
-    blurb:"West Disas: a vast, sparsely populated frontier state. Small in number, but hard to starve out."},
-  keiran: {name:"N-K", fullName:"New Keiran", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
+    blurb:"W-D: a vast, sparsely populated frontier state. Small in number, but hard to starve out."},
+  keiran: {name:"N-K", color:"#d4ac0d", region:"Eastern Australia & New Zealand",
     home:["eaus","nzl"],
-    blurb:"New Keiran: a close-knit island alliance guarding the far southern seas."},
+    blurb:"N-K: a close-knit island alliance guarding the far southern seas."},
 };
 const NEUTRAL_EUROPE = ["ice","bri","sca","weu","seu","eeu"];
 const NATION_IDS = Object.keys(NATIONS);
@@ -257,14 +257,14 @@ NATION_IDS.forEach(id=> HOME_BONUS[id] = NATIONS[id].home.length );
 HOME_BONUS.europe = NEUTRAL_EUROPE.length;
 
 const BLOBS = [
-  {label:"SOUTH MAGNUS", ids:NATIONS.magnus.home, color:NATIONS.magnus.color},
-  {label:"DUK", ids:NATIONS.duk.home, color:NATIONS.duk.color},
-  {label:"NEUTRAL EUROPE", ids:NEUTRAL_EUROPE, color:"#777"},
-  {label:"CENTRAL LIAM", ids:["naf","egy","con","eaf","saf"], color:NATIONS.liam.color},
-  {label:"THE DICTATORSHIP OF LACHLAN", ids:NATIONS.lachlan.home, color:NATIONS.lachlan.color},
-  {label:"LIAM ISLES", ids:["ino","png"], color:NATIONS.liam.color},
-  {label:"WEST DISAS", ids:NATIONS.disas.home, color:NATIONS.disas.color},
-  {label:"NEW KEIRAN", ids:NATIONS.keiran.home, color:NATIONS.keiran.color},
+  {label:"S-M", ids:NATIONS.magnus.home, color:NATIONS.magnus.color},
+  {label:"D-U-K", ids:NATIONS.duk.home, color:NATIONS.duk.color},
+  {label:"NEUTRAL", ids:NEUTRAL_EUROPE, color:"#777"},
+  {label:"C-L-A-L-I", ids:["naf","egy","con","eaf","saf"], color:NATIONS.liam.color},
+  {label:"T-D-O-L", ids:NATIONS.lachlan.home, color:NATIONS.lachlan.color},
+  {label:"C-L-A-L-I", ids:["ino","png"], color:NATIONS.liam.color},
+  {label:"W-D", ids:NATIONS.disas.home, color:NATIONS.disas.color},
+  {label:"N-K", ids:NATIONS.keiran.home, color:NATIONS.keiran.color},
 ];
 
 function startArmy(pop){ return Math.max(2, Math.round(pop/40)); }
